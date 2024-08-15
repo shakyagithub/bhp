@@ -1,0 +1,266 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Bangalore Home Price Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/server/app.js"></script>
+    <link rel="stylesheet" href="/server/app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Bangalore Home Price Prediction</h1>
+        <form class="form">
+            <h2>Area (Square Feet)</h2>
+            <input class="area" type="text" id="uiSqft" name="Squareft" value="1000">
+            <h2>BHK</h2>
+            <div class="switch-field">
+                <input type="radio" id="radio-bhk-1" name="uiBHK" value="1">
+                <label for="radio-bhk-1">1</label>
+                <input type="radio" id="radio-bhk-2" name="uiBHK" value="2" checked>
+                <label for="radio-bhk-2">2</label>
+                <input type="radio" id="radio-bhk-3" name="uiBHK" value="3">
+                <label for="radio-bhk-3">3</label>
+                <input type="radio" id="radio-bhk-4" name="uiBHK" value="4">
+                <label for="radio-bhk-4">4</label>
+                <input type="radio" id="radio-bhk-5" name="uiBHK" value="5">
+                <label for="radio-bhk-5">5</label>
+            </div>
+        </form>
+        <form class="form">
+            <h2>Bath</h2>
+            <div class="switch-field">
+                <input type="radio" id="radio-bath-1" name="uiBathrooms" value="1">
+                <label for="radio-bath-1">1</label>
+                <input type="radio" id="radio-bath-2" name="uiBathrooms" value="2" checked>
+                <label for="radio-bath-2">2</label>
+                <input type="radio" id="radio-bath-3" name="uiBathrooms" value="3">
+                <label for="radio-bath-3">3</label>
+                <input type="radio" id="radio-bath-4" name="uiBathrooms" value="4">
+                <label for="radio-bath-4">4</label>
+                <input type="radio" id="radio-bath-5" name="uiBathrooms" value="5">
+                <label for="radio-bath-5">5</label>
+            </div>
+            <h2>Location</h2>
+            <div>
+                <select class="location" id="uiLocations">
+                    <option value="" disabled selected>Choose a Location</option>
+                    <option>Electronic City</option>
+                    <option>Rajaji Nagar</option>
+                </select>
+            </div>
+            <button class="submit" onclick="onClickedEstimatePrice()" type="button">Estimate Price</button>
+            <div id="uiEstimatedPrice" class="result">
+                <h2></h2>
+            </div>
+        </form>
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bangalore Home Price Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Google Sans', sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+        h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        input[type="text"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .switch-field {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .switch-field input {
+            display: none;
+        }
+        .switch-field label {
+            display: inline-block;
+            width: 48px;
+            background: #e4e4e4;
+            padding: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        .switch-field input:checked + label {
+            background: #007BFF;
+            color: white;
+        }
+        .submit {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submit:hover {
+            background: #0056b3;
+        }
+        .result h2 {
+            font-size: 1.2em;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bangalore Home Price Prediction</h1>
+        <form class="form">
+            <h2>Area (Square Feet)</h2>
+            <input class="area" type="text" id="uiSqft" name="Squareft" value="1000">
+            <h2>BHK</h2>
+            <div class="switch-field">
+                <input type="radio" id="radio-bhk-1" name="uiBHK" value="1">
+                <label for="radio-bhk-1">1</label>
+                <input type="radio" id="radio-bhk-2" name="uiBHK" value="2" checked>
+                <label for="radio-bhk-2">2</label>
+                <input type="radio" id="radio-bhk-3" name="uiBHK" value="3">
+                <label for="radio-bhk-3">3</label>
+                <input type="radio" id="radio-bhk-4" name="uiBHK" value="4">
+                <label for="radio-bhk-4">4</label>
+                <input type="radio" id="radio-bhk-5" name="uiBHK" value="5">
+                <label for="radio-bhk-5">5</label>
+            </div>
+        </form>
+        <form class="form">
+            <h2>Bath</h2>
+            <div class="switch-field">
+                <input type="radio" id="radio-bath-1" name="uiBathrooms" value="1">
+                <label for="radio-bath-1">1</label>
+                <input type="radio" id="radio-bath-2" name="uiBathrooms" value="2" checked>
+                <label for="radio-bath-2">2</label>
+                <input type="radio" id="radio-bath-3" name="uiBathrooms" value="3">
+                <label for="radio-bath-3">3</label>
+                <input type="radio" id="radio-bath-4" name="uiBathrooms" value="4">
+                <label for="radio-bath-4">4</label>
+                <input type="radio" id="radio-bath-5" name="uiBathrooms" value="5">
+                <label for="radio-bath-5">5</label>
+            </div>
+            <h2>Location</h2>
+            <div>
+                <select class="location" id="uiLocations">
+                    <option value="" disabled selected>Choose a Location</option>
+                    <option>Electronic City</option>
+                    <option>Rajaji Nagar</option>
+                </select>
+            </div>
+            <button class="submit" onclick="onClickedEstimatePrice()" type="button">Estimate Price</button>
+            <div id="uiEstimatedPrice" class="result">
+                <h2></h2>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function getBathValue() {
+            var uiBathrooms = document.getElementsByName("uiBathrooms");
+            for(var i in uiBathrooms) {
+                if(uiBathrooms[i].checked) {
+                    return parseInt(i)+1;
+                }
+            }
+            return -1; // Invalid Value
+        }
+
+        function getBHKValue() {
+            var uiBHK = document.getElementsByName("uiBHK");
+            for(var i in uiBHK) {
+                if(uiBHK[i].checked) {
+                    return parseInt(i)+1;
+                }
+            }
+            return -1; // Invalid Value
+        }
+
+        function onClickedEstimatePrice() {
+            console.log("Estimate price button clicked");
+            var sqft = document.getElementById("uiSqft");
+            var bhk = getBHKValue();
+            var bathrooms = getBathValue();
+            var location = document.getElementById("uiLocations");
+            var estPrice = document.getElementById("uiEstimatedPrice");
+
+            var url = "http://127.0.0.1:5000/predict_home_price"; // Use this if you are NOT using nginx which is first 7 tutorials
+            // var url = "/api/predict_home_price"; // Use this if  you are using nginx. i.e tutorial 8 and onwards
+
+            $.post(url, {
+                total_sqft: parseFloat(sqft.value),
+                bhk: bhk,
+                bath: bathrooms,
+                location: location.value
+            }, function(data, status) {
+                console.log(data.estimated_price);
+                estPrice.innerHTML = "<h2>" + data.estimated_price.toString() + " Lakh</h2>";
+                console.log(status);
+            });
+        }
+
+        function onPageLoad() {
+            console.log("document loaded");
+            var url = "http://127.0.0.1:5000/get_location_names"; // Use this if you are NOT using nginx which is first 7 tutorials
+            // var url = "/api/get_location_names"; // Use this if  you are using nginx. i.e tutorial 8 and onwards
+
+            $.get(url, function(data, status) {
+                console.log("got response for get_location_names request");
+                if(data) {
+                    var locations = data.locations;
+                    var uiLocations = document.getElementById("uiLocations");
+                    $('#uiLocations').empty();
+                    for(var i in locations) {
+                        var opt = new Option(locations[i]);
+                        $('#uiLocations').append(opt);
+                    }
+                }
+            });
+        }
+
+        window.onload = onPageLoad;
+    </script>
+</body>
+</html>
